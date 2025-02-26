@@ -19,4 +19,4 @@ ENV PORT=8080
 EXPOSE $PORT
 
 # Run with production server
-CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "--workers", "2", "bot:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "bot:app"]
