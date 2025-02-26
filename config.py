@@ -5,7 +5,7 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_TOKEN")
 AUTHORIZED_USERS = [int(os.getenv("AUTHORIZED_USER_ID"))]  # Your Telegram ID
 
 # Koyeb Webhook Configuration
-WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://your-koyeb-service-name.koyeb.app/webhook")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL", "https://purplestreambot-mrblackgod.koyeb.app/webhook")
 PORT = int(os.environ.get("PORT", 8080))
 
 # Koyeb Accounts (Name: API Key)
