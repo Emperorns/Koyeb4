@@ -1,6 +1,5 @@
 import requests
-import json
-from typing import Dict, List
+from typing import List, Dict, Optional
 
 KOYEB_API = "https://app.koyeb.com/v1"
 
@@ -10,27 +9,32 @@ class KoyebAPI:
     
     def get_apps(self) -> List[Dict]:
         try:
-            res = requests.get(f"{KOYEB_API}/apps", headers=self.headers)
-            return res.json().get("apps", [])
-        except Exception as e:
+            response = requests.get(f"{KOYEB_API}/apps", headers=self.headers)
+            response.raise_for_status()
+            return response.json().get("apps", [])
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching apps: {e}")
             return []
 
     def app_action(self, app_id: str, action: str) -> bool:
         try:
-            res = requests.post(
+            response = requests.post(
                 f"{KOYEB_API}/apps/{app_id}/{action}",
                 headers=self.headers
             )
-            return res.status_code == 200
-        except:
+            return response.status_code == 200
+        except requests.exceptions.RequestException as e:
+            print(f"Error performing {action} on {app_id}: {e}")
             return False
     
-    def get_logs(self, app_id: str) -> str:
+    def get_logs(self, app_id: str) -> Optional[str]:
         try:
-            res = requests.get(
+            response = requests.get(
                 f"{KOYEB_API}/apps/{app_id}/logs",
                 headers=self.headers
             )
-            return res.text[:4000]  # Truncate for Telegram limits
-        except:
-            return "Failed to fetch logs"
+            response.raise_for_status()
+            return response.text[:4000]  # Truncate for Telegram limits
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching logs for {app_id}: {e}")
+            return None
